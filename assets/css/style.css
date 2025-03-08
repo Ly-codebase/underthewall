@@ -1,0 +1,81 @@
+/* assets/css/style.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: url("index_background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#site-title {
+  position: absolute;
+  top: 20px; /* 调整这个值可以改变距离页面顶部的距离 */
+  left: 20px; /* 调整这个值可以改变距离页面左边的距离 */
+  color: #666;
+  font-size: 1.2em;
+  -webkit-box-reflect: below -10px -webkit-linear-gradient(transparent, transparent 5%, rgba(255, 255, 255, .3));
+}
+
+.container {
+  text-align: center;
+  background: rgba(205, 92, 92, 0.3); /* 设置背景透明度 */
+  padding: 2em;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .1);
+  width: 600px;
+  position: relative; /* 确保容器相对于body居中 */
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* 图片和文字之间的间距 */
+  flex-direction: column; /* 改变flex方向为垂直排列 */
+}
+
+.title-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  max-height: 180px; /* 根据需要调整最大高度 */
+  max-width: 100%; /* 设置最大宽度 */
+  object-fit: contain; /* 保持图片比例并适应容器 */
+}
+
+.title-text {
+  font-size: 3em;
+  color: #333;
+  font-weight: bold; /* 加粗标题 */
+}
+
+.subtitle-text {
+  font-size: 1.5em; /* 比主标题小一点 */
+  color: #666;
+  margin-top: 0.5em; /* 在标题和副标题之间添加一些间距 */
+}
+
+.button {
+  display: inline-block;
+  padding: .75em 1.5em;
+  margin: .5em;
+  background-color: #c88524; /* 按钮颜色更改为#c88524 */
+  color: #fff;
+  font-size: .9em;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color .3s ease;
+}
+
+.button:hover {
+  background-color: #a56d1e; /* 手动指定一个更深的颜色 */
+}
