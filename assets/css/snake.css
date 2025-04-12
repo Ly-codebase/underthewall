@@ -1,0 +1,342 @@
+body {
+    background: url("game_background_2.png") no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Microsoft YaHei', sans-serif;  
+    }
+html{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%; /* 如果需要全屏高度 */
+}
+#gameContainer {
+    position: relative;
+    margin: 20px;
+    width: 60%；
+}
+#gameCanvas {
+    border: 2px solid #654321;
+    border-radius: 20px;
+    background-color: rgba(231, 142, 142, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.info-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateY(90deg);
+    width: 300px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    transition: transform 0.6s;
+    backface-visibility: hidden;
+    display: none;
+}
+.card-visible {
+    transform: translate(-50%, -50%) rotateY(0deg);
+    display: block;
+}
+button {
+    margin: 10px;
+    padding: 8px 20px;
+    background: #654321;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#startButton {
+    padding: 12px 24px;
+    font-size: 18px;
+    background: #5a3921;
+    transition: all 0.3s;
+}
+#startButton:hover {
+    background: #7a5b43;
+    transform: scale(1.05);
+}
+#startButton:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+/* 新增样式 */
+.content-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.description-panel {
+    background-color: rgba(231, 142, 142, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    opacity: 0.99;
+    border-radius: 10px;
+    padding: 20px;
+    width: 24%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    font-size: 14px;
+    line-height: 1.6;
+     box-sizing: border-box; /* 包含 padding 和 border */
+}
+
+.description-panel h3 {
+    color: #654321;
+    border-bottom: 2px solid #c4b79d;
+    padding-bottom: 8px;
+    margin: 0 0;
+    margin-right: 20px;
+}
+
+.description-panel p {
+    margin: 8px 0;
+    color: #333;
+}
+
+.hint {
+    margin-top: 15px;
+    padding: 10px;
+    background: #fff3e0;
+    border-radius: 5px;
+    font-size: 13px;
+    color: #e67e22;
+}
+
+/* 新增图片轮播样式 */
+.image-carousel {
+    margin-top: 25px;
+    padding: 15px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    height: 200px;
+    position: relative;
+}
+
+.carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    opacity: 0;
+    position: absolute;
+    transition: opacity 1s ease-in-out;
+}
+
+.carousel-image.active {
+    opacity: 1;
+}
+ /* 新增顶部装饰样式 */
+
+.city-wall-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: 
+        linear-gradient(to right, transparent 50%, rgba(101,67,33,0.2) 50%) 0 0 / 20px 100%,
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="100"><rect x="0" y="0" width="20" height="100" fill="rgba(101,67,33,0.1)"/></svg>') 
+        repeat-x;
+    opacity: 0.8;
+    z-index: 1;
+}
+
+h1 {
+    position: relative;
+    padding: 30px 20px;
+    color: #654321;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+    z-index: 2;
+}
+
+.h1-icon {
+    margin-left: 15px;
+    transition: transform 0.3s;
+}
+
+h1:hover .h1-icon {
+    transform: rotate(5deg) scale(1.1);
+}
+
+/* 城墙垛口装饰 */
+.battlement {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1200px;
+    height: 30px;
+    background: 
+        linear-gradient(
+            90deg,
+            transparent 0%, transparent 10%,
+            #654321 10%, #654321 20%,
+            transparent 20%, transparent 30%,
+            #654321 30%, #654321 40%,
+            transparent 40%, transparent 50%,
+            #654321 50%, #654321 60%,
+            transparent 60%, transparent 70%,
+            #654321 70%, #654321 80%,
+            transparent 80%, transparent 90%,
+            #654321 90%, #654321 100%
+        );
+    background-size: 120px 30px;
+    z-index: 1;
+}
+/* 容器样式 */
+.timeline-container {
+    width: 16%;
+    margin-right: 10px;
+    margin-left: 20px;
+    height: 580px;
+    font-family: Arial, sans-serif;
+    overflow-y: auto; /* 允许垂直滚动 */
+    overflow-x: hidden; /* 禁止水平滚动 */
+    box-sizing: border-box; /* 包含 padding 和 border */ 
+}
+
+/* 自定义滚动条样式 */
+.timeline-container::-webkit-scrollbar {
+    width: 8px; /* 滚动条宽度 */
+    background-color: transparent; /* 背景透明 */
+}
+
+.timeline-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3); /* 滑块颜色，半透明 */
+    border-radius: 4px; /* 滑块圆角 */
+}
+
+.timeline-container::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.5); /* 鼠标悬停时滑块颜色加深 */
+}
+
+.timeline-container::-webkit-scrollbar-track {
+    background-color: transparent; /* 滚动轨道背景透明 */
+}
+
+/* 时间线主样式 */
+.timeline {
+    position: relative;
+    padding: 20px 0;
+    border-left: 2px solid #c29893;
+    height: fit-content; /* 自适应高度 */
+}
+
+/* 事件样式 */
+/* 调整事件内容的布局 */
+.event {
+    position: relative;
+    padding: 15px 10px 15px 25px;
+    height: auto;
+    margin-left: 10px;
+    border-bottom: 1px dashed #ebdacd;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* 事件悬停效果 */
+.event:hover {
+    transform: scale(1.05); /* 放大效果 */
+    background-color: rgba(245, 237, 218, 0.5); /* 背景颜色变化 */
+}
+/* 圆点样式 */
+.event::after {
+    content: '';
+    position: absolute;
+    left: -9px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    background: #f5edda;
+    border: 2px solid #c29893;
+    border-radius: 50%;
+    transition: box-shadow 0.3s ease; /* 添加阴影过渡效果 */
+}
+
+/* 圆点悬停效果 */
+.event:hover::after {
+    box-shadow: 0 0 10px rgba(194, 152, 147, 0.8); /* 阴影效果增强互动性 */
+}
+.nav-container {
+    position: relative;
+    width: 100%; /* 自适应屏幕宽度 */
+    height: 200px; /* 固定高度 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* 防止内容溢出 */
+    box-sizing: border-box; /* 包含 padding 和 border */
+}
+.nav-content {
+    width: 100%; /* 子元素宽度与父容器一致 */
+    text-align: center; /* 文本居中 */
+}
+
+/* 导航栏链接基础样式 */
+nav a {
+    font-size: 1.2rem;
+    color: #fff; /* 默认文字颜色 */
+    text-decoration: none; /* 去除下划线 */
+    margin: 0 15px;
+    padding: 10px 20px;
+    border-radius: 25px; /* 圆角设计 */
+    background: linear-gradient(145deg, #654321, #c29893); /* 渐变背景色 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* 阴影效果 */
+    transition: all 0.3s ease; /* 平滑过渡效果 */
+    position: relative;
+    overflow: hidden; /* 用于实现按钮内的特效 */
+}
+
+/* 悬停效果 */
+nav a:hover {
+    transform: scale(1.1); /* 放大效果 */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 加强阴影 */
+    background: linear-gradient(145deg, #c29893, #654321); /* 渐变色反转 */
+    color: #ffcc00; /* 文字颜色变化 */
+}
+
+/* 按钮内特效：动态波纹效果 */
+nav a::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3); /* 半透明白色波纹 */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+}
+
+/* 鼠标悬停时触发波纹效果 */
+nav a:hover::before {
+    width: 200px;
+    height: 200px;
+    opacity: 1;
+}
+
+/* 激活状态（可选） */
+nav a.active {
+    background: linear-gradient(145deg, #ffcc00, #e67e22); /* 激活状态的渐变色 */
+    color: #fff;
+    box-shadow: 0 6px 12px rgba(255, 204, 0, 0.3); /* 激活状态的阴影 */
+}
+.logo{
+	text-align: center;
+}
