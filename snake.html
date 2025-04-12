@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>古城墙探索游戏</title>
+    <link rel="stylesheet" href="assets/css/snake.css" >
+</head>
+<body>
+    <div class="nav-container">
+        <!-- 导航栏添加到现有结构中 -->
+        <div class="nav-content">
+            <h1 class="logo">南京城墙奇妙游：每一砖都是新发现</h1>
+            <nav style="text-align: center;">
+                <a href="#timeline">历史时间线</a>
+                <a href="#gameContainer">探索游戏</a>
+                <a href="#about">城墙剪影</a>
+            </nav>
+        </div>
+        <div class="city-wall-bg"></div>
+        <!--<div class="battlement"></div>-->
+        <div class="city-wall-pattern"></div>
+    </div>
+    
+    <!-- 主要内容区域 -->
+    <div class="content-wrapper">
+        <!-- 新增时间线 -->
+        <div class="timeline-container">
+            <div class="timeline" id="timeline">
+                <div class="event">
+                    <b>1353年-元朝</b><br/>采纳建都金陵建议
+                </div>
+                <div class="event">
+                    <b>1357年-元朝</b><br/>城墙建造拉开序幕
+                </div>
+                <div class="event">
+                    <b>1366年-元朝</b><br/>改筑应天府城开工
+                </div>
+                <div class="event">
+                    <b>1367年-元朝</b><br/>一期工程完工
+                </div>
+                <div class="event">
+                    <b>1369年-明朝</b><br/>二期工程开工
+                </div>
+                <div class="event">
+                    <b>1373年-明朝</b><br/>三期工程启动
+                </div>
+                <div class="event">
+                    <b>1386年-明朝</b><br/>三期工程完工
+                </div>
+                <div class="event">
+                    <b>1390年-明朝</b><br/>外郭城墙开始建造
+                </div>
+                <div class="event">
+                    <b>1393年-明朝</b><br/>四重城垣全部完工
+                </div>
+                <div class="event">
+                    <b>1402年-明朝</b><br/>城墙首次战争危机
+                </div>
+                <div class="event">
+                    <b>1892年-清朝</b><br/>神策门城楼修复重建
+                </div>
+                <div class="event">
+                    <b>1908年-清朝</b><br/>增辟草场门和丰润门
+                </div>
+                <div class="event">
+                    <b>1911年-清朝</b><br/>朝阳门瓮城遭到破坏
+                </div>
+                <div class="event">
+                    <b>1913年-民国</b><br/>袁世凯军炮击南京城
+                </div>
+                <div class="event">
+                    <b>1921年-民国</b><br/>新开挹江门
+                </div>
+                <div class="event">
+                    <b>1927年-民国</b><br/>计划拆毁城墙
+                </div>
+                <div class="event">
+                    <b>1928年-民国</b><br/>城门易名整治风气
+                </div>
+                <div class="event">
+                    <b>1931年-民国</b><br/>开辟中央门和中华东、西门
+                </div>
+                <div class="event">
+                    <b>1933年-民国</b><br/>新辟汉中门和武定门
+                </div>
+                <div class="event">
+                    <b>1934年-民国</b><br/>开辟新民门和护城河桥
+                </div>
+                <div class="event">
+                    <b>1936年-民国</b><br/>开辟雨花门连接铁路
+                </div>
+                <div class="event">
+                    <b>1954年-现代</b><br/>解放门开辟防空疏散
+                </div>
+                <div class="event">
+                    <b>1991年-现代</b><br/>集庆门设计建设获批
+                </div>
+                <div class="event">
+                    <b>1993年-现代</b><br/>城墙管理归属文物局
+                </div>
+                <div class="event">
+                    <b>2004年-现代</b><br/>明城墙保护计划颁布
+                </div>
+                <div class="event">
+                    <b>2018年-现代</b><br/>城墙博物馆奠基建设
+                </div>
+                <div class="event">
+                    <b>2020年-现代</b><br/>加入国际城防遗产委员会
+                </div>
+            </div>
+        </div>
+                <!-- 游戏区域保持不变 -->
+        <div id="gameContainer">
+            <canvas id="gameCanvas" width="720" height="580"></canvas>
+            <div id="infoCard" class="info-card">
+                <h2 id="wallTitle"></h2>
+                <p id="wallDescription"></p>
+                <button onclick="resumeGame()">继续探索</button>
+            </div>
+        </div>
+        <!-- 右侧说明区域 -->
+        <div class="description-panel" style="margin-top: 20px;">
+            <h3>探索指南</h3>
+            <!-- 原有指南内容保持不变 -->
+            <p>▶ 使用方向键控制移动方向</p>
+            <p>▶ 碰撞城墙解锁历史知识</p>
+            <p>▶ 探索全部14座古城门</p>
+            <p>▶ 注意不要超出古城范围</p>
+            <div class="hint">按住方向键可快速移动</div>
+            <button id="startButton" onclick="startGame()">开始探索</button>
+            <!-- 新增图片轮播卡片 -->
+            <div class="image-carousel">
+                <img src="assets/css/轮播1.jpg" class="carousel-image active" alt="古城墙1">
+                <img src="assets/css/轮播2.jpg" class="carousel-image" alt="古城墙2">
+                <img src="assets/css/轮播3.png" class="carousel-image" alt="古城墙3">
+            </div>
+        </div>
+    </div>
+
+<script>
+// 游戏配置参数
+const config = {
+    snakeSpeed: 200,   // 移动速度（毫秒）
+    gridSize: 10,      // 移动步长
+    initialLength: 5   // 初始蛇长
+};
+
+// 城墙数据（13个历史城门）
+const wallData = [
+    { x: 120, y: 80, w: 70, h: 25, name: "挹江门", desc: "1921年开凿为便民通道，后建成三孔券门。原名海陵门，1928年改名为挹江门。是南京城墙的重要城门之一，连接中山码头和下关火车站。", color: "#8B4513" }, // 棕色
+    { x: 160, y: 140, w: 65, h: 25, name: "华严岗门", desc: "明城墙坍塌口新建的通行门，又称“城墙天桥”。华严岗门共有四个拱门，中间两个拱门高度为9米多，两侧拱门高度为6米多。", color: "#A0522D" }, // 巧克力色
+    { x: 300, y: 50, w: 45, h: 20, name: "神策门", desc: "保存最完整的城门，现名和平门。是南京现存唯一一座保留民国以前镝楼的城门，也是唯一一座外瓮城城门。", color: "#CD853F" }, // 褐沙色
+    { x: 360, y: 88, w: 75, h: 28, name: "玄武门", desc: "原名丰润门，1908年为南洋劝业会修建，后改名为玄武门。靠近玄武湖，是近代历史意义上的公园入口。", color: "#D2B48C" }, // 沙漠色
+    { x: 420, y: 170, w: 85, h: 35, name: "解放门", desc: "1954年为疏散防空而开辟的单券新门，连接城墙内外交通，承担防空功能。垛口至城外地面的高度在20-25米之间，是南京现存最高大的城墙之一。", color: "#DEB887" }, // 木色
+    { x: 490, y: 230, w: 75, h: 28, name: "中山门", desc: "原名朝阳门，为迎孙中山灵柩改建并更名。连接城内的宫城和城外的明孝陵，是南京城东的重要通道。", color: "#F4A460" }, // 橙棕色
+    { x: 550, y: 290, w: 55, h: 22, name: "标营门", desc: "1996年修复，用于打通标营路与月牙湖桥。因地处标营附近而得名，是南京城墙修复工程的重要成果之一。", color: "#BC8F8F" }, // 玫瑰棕色
+    { x: 310, y: 230, w: 70, h: 25, name: "清凉门", desc: "坐落清凉山，为明城墙最具特色一段。著名的‘鬼脸城’即在此段，曾被堵塞600多年未使用。", color: "#8B7355" }, // 深棕色
+    { x: 280, y: 290, w: 75, h: 28, name: "汉中门", desc: "原址毁于拆墙运动，今为纪念广场。广场分为回归田园区、古城墙登眺区等多个功能区，兼具古朴风貌与现代气息。", color: "#C8AD7F" }, // 浅棕色
+    { x: 250, y: 350, w: 60, h: 22, name: "集庆门", desc: "1991年新建城门，采用宋代过梁式风格，共有4个方形门洞。开创了中国城门通道的先河，极具建筑特色。", color: "#966F33" }, // 暗棕色
+    { x: 280, y: 410, w: 70, h: 25, name: "长干门", desc: "横跨城市干道，融合古城与现代交通。由一个主门和四个边门组成，主门跨越地铁一号线轨道线，不影响机动车和地铁通行。", color: "#786B5E" }, // 灰棕色
+    { x: 360, y: 460, w: 140, h: 50, name: "中华门", desc: "旧名聚宝门，是中国现存规模最大、保存最完好的瓮城。有三道瓮城、27个藏兵洞，可屯兵三千，堪称古代军事防御的杰作。", color: "#654321" }, // 深巧克力色
+    { x: 440, y: 540, w: 90, h: 35, name: "雨花门", desc: "1936年因铁路贯通开设，后遭拆毁并复建。靠近雨花台，具有重要的交通和历史意义。", color: "#B8860B" }, // 暗金色（偏棕）
+    { x: 540, y: 490, w: 80, h: 30, name: "武定门", desc: "1933年建为牌楼式城门，2010年复建。因其靠近武定桥而得名，是民国时期重要的城门之一。", color: "#A67B5B" } // 泥棕色
+];
+
+// 游戏状态对象
+let gameState = {
+    snake: [],          // 蛇身坐标数组
+    direction: 'right', // 当前移动方向
+    walls: [],          // 城墙数据副本
+    gameRunning: false, // 游戏运行状态
+    lastMoveTime: 0     // 上次移动时间
+};
+
+// DOM元素引用
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const infoCard = document.getElementById('infoCard');
+
+// 初始化游戏
+function initGame() {
+    // 重置游戏状态
+    gameState = {
+        snake: createInitialSnake(),
+        direction: 'right',
+        walls: wallData.map(wall => ({ ...wall, isExplored: false })),
+        gameRunning: false,
+        lastMoveTime: 0
+    };
+    
+    // 清空画布
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawWalls();
+}
+
+// 创建初始蛇身
+function createInitialSnake() {
+    return Array.from({ length: config.initialLength }, (_, i) => ({
+        x: 300 - i * config.gridSize,
+        y: 200
+    }));
+}
+
+// 绘制所有城墙
+function drawWalls() {
+    gameState.walls.forEach(wall => {
+        ctx.fillStyle = wall.color;
+        ctx.beginPath();
+        ctx.roundRect(wall.x, wall.y, wall.w, wall.h, 5);
+        ctx.fill();
+        
+        // 绘制城墙名称
+        ctx.fillStyle = '#fff';
+        ctx.font = '12px Arial';
+        ctx.fillText(wall.name, wall.x + 5, wall.y + 15);
+    });
+}
+
+// 绘制蛇身
+function drawSnake() {
+    ctx.fillStyle = '#000';
+    gameState.snake.forEach(segment => {
+        ctx.beginPath();
+        ctx.arc(segment.x, segment.y, 8, 0, Math.PI * 2);
+        ctx.fill();
+    });
+}
+
+// 移动蛇身
+function moveSnake() {
+    const head = { ...gameState.snake[0] };
+    
+    // 根据方向更新坐标
+    switch (gameState.direction) {
+        case 'right': head.x += config.gridSize; break;
+        case 'left': head.x -= config.gridSize; break;
+        case 'up': head.y -= config.gridSize; break;
+        case 'down': head.y += config.gridSize; break;
+    }
+    
+    // 更新蛇身数组（添加新头，移除尾部）
+    gameState.snake.unshift(head);
+    gameState.snake.pop();
+}
+
+// 边界碰撞检测
+function checkBoundaryCollision(head) {
+    return (
+        head.x < 0 ||
+        head.x >= canvas.width ||
+        head.y < 0 ||
+        head.y >= canvas.height
+    );
+}
+
+// 城墙碰撞检测
+function checkWallCollision() {
+    const head = gameState.snake[0];
+    return gameState.walls.some(wall => 
+        !wall.isExplored &&
+        head.x > wall.x &&
+        head.x < wall.x + wall.w &&
+        head.y > wall.y &&
+        head.y < wall.y + wall.h
+    );
+}
+
+// 处理碰撞事件
+function handleCollision() {
+    gameState.gameRunning = false;
+    const collidedWall = gameState.walls.find(wall => 
+        !wall.isExplored &&
+        gameState.snake[0].x > wall.x &&
+        gameState.snake[0].x < wall.x + wall.w &&
+        gameState.snake[0].y > wall.y &&
+        gameState.snake[0].y < wall.y + wall.h
+    );
+    
+    if (collidedWall) {
+        collidedWall.isExplored = true;
+        document.getElementById('wallTitle').textContent = collidedWall.name;
+        document.getElementById('wallDescription').textContent = collidedWall.desc;
+        infoCard.classList.add('card-visible');
+    }
+}
+
+// 游戏结束处理
+function gameOver() {
+    gameState.gameRunning = false;
+    document.getElementById('startButton').disabled = false;
+    alert('探索结束！你已超出古城范围');
+}
+
+// 游戏主循环
+function gameLoop(timestamp) {
+    if (!gameState.gameRunning) return;
+    
+    // 控制移动频率
+    if (timestamp - gameState.lastMoveTime > config.snakeSpeed) {
+        const head = gameState.snake[0];
+        
+        // 优先检测边界碰撞
+        if (checkBoundaryCollision(head)) {
+            gameOver();
+            return;
+        }
+        
+        // 移动蛇身
+        moveSnake();
+        
+        // 检测城墙碰撞
+        if (checkWallCollision()) {
+            handleCollision();
+            return;
+        }
+        
+        // 重绘画布
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawWalls();
+        drawSnake();
+        
+        gameState.lastMoveTime = timestamp;
+    }
+    
+    requestAnimationFrame(gameLoop);
+}
+
+// 开始游戏
+function startGame() {
+    const startBtn = document.getElementById('startButton');
+    startBtn.disabled = true;
+    initGame();
+    gameState.gameRunning = true;
+    requestAnimationFrame(gameLoop);
+}
+
+// 继续游戏
+function resumeGame() {
+    infoCard.classList.remove('card-visible');
+    gameState.gameRunning = true;
+    requestAnimationFrame(gameLoop);
+}
+
+// 键盘控制
+document.addEventListener('keydown', (e) => {
+    const keyMap = {
+        ArrowUp: () => gameState.direction !== 'down' && (gameState.direction = 'up'),
+        ArrowDown: () => gameState.direction !== 'up' && (gameState.direction = 'down'),
+        ArrowLeft: () => gameState.direction !== 'right' && (gameState.direction = 'left'),
+        ArrowRight: () => gameState.direction !== 'left' && (gameState.direction = 'right')
+    };
+    keyMap[e.key] && keyMap[e.key]();
+});
+
+// 初始化游戏（首次加载）
+initGame();
+// 在原有脚本最后添加图片轮播逻辑
+document.addEventListener('DOMContentLoaded', () => {
+    const images = document.querySelectorAll('.carousel-image');
+    let currentIndex = 0;
+
+    function showNextImage() {
+        images[currentIndex].classList.remove('active');
+        currentIndex = (currentIndex + 1) % images.length;
+        images[currentIndex].classList.add('active');
+    }
+
+    // 每5秒切换图片
+    setInterval(showNextImage, 5000);
+});
+
+
+</script>
+</body>
+</html>
