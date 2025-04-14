@@ -83,6 +83,8 @@
     font-size: 15px;
     box-sizing: border-box;
     color: rgba(255,255,255,0.7);
+    font-weight:bold;
+    text-shadow: 1px 1px 1px rgb(183,141,18,0.7);
     line-height: 25px;
 }
 
